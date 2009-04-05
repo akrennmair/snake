@@ -2,7 +2,19 @@ CC=cc
 CFLAGS=-O2 -Wall -Wextra
 LDFLAGS=-lncurses
 OUTPUT=snake
+
+prefix=/usr/local
+bindir=$(prefix)/bin
+man1dir=$(prefix)/share/man/man1
+docdir=$(prefix)/share/doc/$(OUTPUT)
+
+RM=rm -f
+INSTALL=install
+MKDIR=mkdir -p
+
 OBJS=$(patsubst %.c,%.o,$(wildcard *.c))
+DOCFILES=NEWS README ChangeLog AUTHORS LICENSE
+
 
 all: $(OUTPUT)
 
@@ -17,4 +29,16 @@ clean:
 
 distclean: clean
 
+install:
+	$(MKDIR) $(DESTDIR)$(bindir)
+	$(MKDIR) $(DESTDIR)$(man1dir)
+	$(MKDIR) $(DESTDIR)$(docdir)
+	$(INSTALL) -m 755 $(OUTPUT) $(DESTDIR)$(bindir)
+	$(INSTALL) -m 644 $(OUTPUT).1 $(DESTDIR)$(man1dir)
+	$(INSTALL) -m 644 $(DOCFILES) $(DESTDIR)$(docdir)
+
 .PHONY: clean distclean all
+
+# dependencies:
+
+snake.c: snake.h
