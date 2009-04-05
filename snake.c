@@ -23,7 +23,6 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include "snake.h"
-#include "config.h"
 
 snake_elem * thesnake;
 snake_elem oldpos;

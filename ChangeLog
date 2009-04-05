@@ -1,3 +1,7 @@
+Apr 05 2009:
+ * Replaced the autoconf/automake configure script by a simple Makefile
+     -- Andreas Krennmair
+
 May 19 2001:
  * Replaced the Makefile by a autoconf/automake based configure script
      -- Andreas Krennmair
