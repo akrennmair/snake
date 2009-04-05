@@ -1,1 +1,17 @@
-Nothing interesting. See manpage(snake(1)).
+README
+======
+
+snake is a little game where you have to catch as many stars as possible with
+your snake. This game is well-known on the nokia mobile phones, but I wrote
+my own version for text terminals.
+
+You can control the game with the keys i (up), k (down), j (left) and l (right).
+You can customize these keys by editing the .snake file in your home directory.
+
+Contact
+-------
+For feedback, don't hesitate to contact Andreas Krennmair <ak@synflood.at>.
+
+License
+-------
+For license information please see the file LICENSE.

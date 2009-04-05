@@ -13,7 +13,7 @@ INSTALL=install
 MKDIR=mkdir -p
 
 OBJS=$(patsubst %.c,%.o,$(wildcard *.c))
-DOCFILES=NEWS README ChangeLog AUTHORS LICENSE
+DOCFILES=README CHANGES AUTHORS LICENSE
 
 
 all: $(OUTPUT)
