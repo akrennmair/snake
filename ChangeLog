@@ -1,0 +1,3 @@
+May 19 2001:
+ * Replaced the Makefile by a autoconf/automake based configure script
+     -- Andreas Krennmair
