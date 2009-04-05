@@ -1,5 +1,6 @@
 Apr 05 2009:
  * Replaced the autoconf/automake configure script by a simple Makefile
+ * Cleaned up and improved code
      -- Andreas Krennmair
 
 May 19 2001:
