@@ -110,7 +110,7 @@ static void quit_game(void){
 	endwin();
 	/* free the snake!!! */
 	free(thesnake);
-	/* printf("Points: %d\n",(int)points); */
+	printf("Final score: %lu\n",points);
 try_again:
 	if ((f=fopen("/var/lib/games/snake.score","rb"))==NULL){
 		if ((f=fopen("/var/lib/games/snake.score","wb"))==NULL){
