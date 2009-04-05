@@ -22,6 +22,7 @@
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <unistd.h>
+#include <pwd.h>
 #include "snake.h"
 
 snake_elem * thesnake;
@@ -213,7 +214,7 @@ int make_a_move(void){
   if (kbhit()){
     ch=getch();
     if (ch=='q') {
-        quit_game();
+        return 0;
     }
     else {
       if (ch==key_up) {
@@ -310,8 +311,16 @@ void read_config(void){
   FILE * configfile;
   char line[10];
   char userpath[255];
-  strcpy(userpath,getenv("HOME"));
-  strcat(userpath,"/.snake");
+  const char * homedir = getenv("HOME");
+  if (!homedir) {
+    struct passwd * spw = getpwuid(getuid());
+    if (!spw) {
+      fprintf(stderr, "Error: I don't exist! Please set $HOME or create a user for UID %u\nso that I know from where I can load my configuration!\n", getuid());
+      exit(1);
+    }
+    homedir = spw->pw_dir;
+  }
+  snprintf(userpath, sizeof(userpath), "%s/.snake", homedir);
   if ((configfile=fopen(userpath,"rt"))==NULL){
     if ((configfile=fopen(userpath,"wt"))!=NULL){
       fprintf(configfile,"%c # up\n%c # down\n%c # left\n%c # right\n",
