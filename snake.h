@@ -23,21 +23,21 @@ typedef struct hsl {
   unsigned int pts;
 } hs_list; 
 
-struct goodie_t {
+static struct goodie_t {
   unsigned int x, y;
   unsigned int pts;
   int eaten;
 } goodie;
 
 
-void init_game(void);
-void quit_game(void);
-int make_a_move(void);
-int kbhit(void);
-void set_new_goodie(void);
-void read_config(void);
-void draw_boundary(void);
-void draw_score(void);
-int cmp_hs(const void *, const void *);
+static void init_game(void);
+static void quit_game(void);
+static int make_a_move(void);
+static int kbhit(void);
+static void set_new_goodie(void);
+static void read_config(void);
+static void draw_boundary(void);
+static void draw_score(void);
+static int cmp_hs(const void *, const void *);
 
 #endif

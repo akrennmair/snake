@@ -9,20 +9,20 @@
 #include <pwd.h>
 #include "snake.h"
 
-snake_elem * thesnake;
-snake_elem oldpos;
-unsigned int len_snake = 10;
-unsigned long points = 0;
-unsigned int count=0;
+static snake_elem * thesnake;
+static snake_elem oldpos;
+static unsigned int len_snake = 10;
+static unsigned long points = 0;
+static unsigned int count=0;
 
-unsigned int height = 25, width = 80;
+static unsigned int height = 25, width = 80;
 
-char key_up = 'i';
-char key_down = 'k';
-char key_left = 'j';
-char key_right = 'l';
+static char key_up = 'i';
+static char key_down = 'k';
+static char key_left = 'j';
+static char key_right = 'l';
 
-void usage(const char * argv0) {
+static void usage(const char * argv0) {
 	fprintf(stderr, "%s: usage: %s\n", argv0, argv0);
 	fprintf(stderr, "Available keys:\n");
 	fprintf(stderr, "\tUp:\t%c\n\tDown:\t%c\n\tLeft:\t%c\n\tRight:\t%c\n", key_up, key_down, key_left, key_right);
@@ -46,14 +46,14 @@ int main(int argc, char * argv[]){
 }
 
 /* procedure for handling signals and stuff */
-void finish(int sig){
+static void finish(int sig){
 	endwin();
 	fprintf(stderr,"Caught signal %d, exiting...\n",sig);
 	exit(-1);
 }
 
 /* redraws the snake */
-void draw_snake(snake_elem * snake,int num_elem){
+static void draw_snake(snake_elem * snake,int num_elem){
 	int i;
 	unsigned int x, y;
 	if (count<1) {
@@ -79,7 +79,7 @@ void draw_snake(snake_elem * snake,int num_elem){
 }
 
 /* initializes the terminal and prepares the snake */
-void init_game(void){
+static void init_game(void){
 	unsigned int i;
 	initscr();
 	signal(SIGTERM,finish);
@@ -102,7 +102,7 @@ void init_game(void){
 }
 
 /* procedure to quit the game (restoring terminal, freeing up memory) */
-void quit_game(void){
+static void quit_game(void){
 	FILE * f;
 	hs_list hs[10], entry;
 	erase();
@@ -117,16 +117,7 @@ try_again:
 			fprintf(stderr,"Error: couldn't create /var/lib/games/snake.score!\n");
 		} else {
 			int i;
-			strcpy(hs[0].name,"Linus Torvalds");     /* Linux kernel */
-			strcpy(hs[1].name,"Richard M Stallman"); /* GNU software */
-			strcpy(hs[2].name,"Larry Wall");         /* Perl */
-			strcpy(hs[3].name,"Dennis M Ritchie");   /* Programming language C */
-			strcpy(hs[4].name,"Alan Cox");           /* Kernel hacker */
-			strcpy(hs[5].name,"Eric S. Raymond");    /* "Cathedral and Bazaar" */
-			strcpy(hs[6].name,"Dirk Hohndel");       /* XFree86 */
-			strcpy(hs[7].name,"Ken Thompson");       /* Unix */
-			strcpy(hs[8].name,"Niklaus Wirth");      /* Pascal */
-			strcpy(hs[9].name,"Donald Knuth");       /* TeX, KMP search algorithm */
+			memset(hs, 0, sizeof(hs));
 			for (i=9;i>=0;--i)
 				hs[9-i].pts=(i+1)*20;
 			fwrite(hs,sizeof(hs_list), 10, f);
@@ -167,7 +158,7 @@ try_again:
 }
 
 /* procedure to handle the snake's moves */
-int make_a_move(void){
+static int make_a_move(void){
 	char ch;
 	unsigned int i;
 	if (goodie.eaten) {
@@ -244,7 +235,7 @@ int make_a_move(void){
 
 /* returns !=0 if a key was hit; the value of the key stays in buffer */
 /* (can be used just as the Turbo-C-conio.h-kbhit)                    */
-int kbhit(void) {
+static int kbhit(void) {
 	fd_set rfds;
 	struct timeval tv;
 	int taste;
@@ -258,7 +249,7 @@ int kbhit(void) {
 
 
 /* procedure to set a new goodie */
-void set_new_goodie(void){
+static void set_new_goodie(void){
 	int isonthesnake;
 	unsigned int i;
 	do {
@@ -278,7 +269,7 @@ void set_new_goodie(void){
 
 
 /* read the configuration file at startup */
-void read_config(void){
+static void read_config(void){
 	FILE * configfile;
 	char line[10];
 	char userpath[255];
@@ -310,7 +301,7 @@ void read_config(void){
 	}
 }
 
-void draw_boundary(void){
+static void draw_boundary(void){
 	unsigned int i;
 	move(0,0);
 	for (i=0;i<width;++i)
@@ -327,7 +318,7 @@ void draw_boundary(void){
 	refresh();
 }
 
-void draw_score(void){
+static void draw_score(void){
 	char pointstr[20];
 	unsigned int i;
 	move(0,3);
@@ -339,7 +330,7 @@ void draw_score(void){
 	refresh();
 }
 
-int cmp_hs(const void * elem1, const void * elem2){
+static int cmp_hs(const void * elem1, const void * elem2){
 	return ((hs_list *)elem2)->pts - ((hs_list *)elem1)->pts;
 }
 
