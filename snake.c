@@ -9,6 +9,7 @@
 #include <pwd.h>
 #include "snake.h"
 
+static goodie_t goodie;
 static snake_elem * thesnake;
 static snake_elem oldpos;
 static unsigned int len_snake = 10;
@@ -49,7 +50,7 @@ int main(int argc, char * argv[]){
 static void finish(int sig){
 	endwin();
 	fprintf(stderr,"Caught signal %d, exiting...\n",sig);
-	exit(-1);
+	exit(1);
 }
 
 /* redraws the snake */
@@ -154,7 +155,6 @@ try_again:
 			chmod("/var/lib/games/snake.score",FILE_PERMS);
 		}
 	} 
-	exit(0);
 }
 
 /* procedure to handle the snake's moves */

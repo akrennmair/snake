@@ -1,10 +1,7 @@
 #ifndef SNAKE_H_INCLUDED
 #define SNAKE_H_INCLUDED
 
-#define LEFT  1
-#define RIGHT 2
-#define UP    3
-#define DOWN  4
+enum direction { LEFT = 1, RIGHT, UP, DOWN };
 
 #define BOUNDARY_CHAR 'X'
 
@@ -14,21 +11,19 @@
 
 typedef struct sn_elem {
   unsigned int x, y;
-  int dir;
+  enum direction dir;
 } snake_elem;
-
 
 typedef struct hsl {
   char name[20];
   unsigned int pts;
 } hs_list; 
 
-static struct goodie_t {
+typedef struct {
   unsigned int x, y;
   unsigned int pts;
   int eaten;
-} goodie;
-
+} goodie_t;
 
 static void init_game(void);
 static void quit_game(void);
