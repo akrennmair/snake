@@ -9,12 +9,15 @@
 #include <pwd.h>
 #include "snake.h"
 
+#define BOUNDARY_CHAR ' '
+
 static goodie_t goodie;
 static snake_elem * thesnake;
 static snake_elem oldpos;
 static unsigned int len_snake = 10;
 static unsigned long points = 0;
 static unsigned int count=0;
+char step = 0;
 
 static unsigned int height = 25, width = 80;
 
@@ -57,8 +60,9 @@ static void finish(int sig){
 static void draw_snake(snake_elem * snake,int num_elem){
 	int i;
 	unsigned int x, y;
+	wattrset(stdscr, A_BOLD);
 	if (count<1) {
-	for (x=oldpos.x-1;x<=oldpos.x+1;++x) {
+		for (x=oldpos.x-1;x<=oldpos.x+1;++x) {
 			for (y=oldpos.y-1;y<=oldpos.y+1;++y){
 				move(y,x);
 				addch(' ');
@@ -72,10 +76,30 @@ static void draw_snake(snake_elem * snake,int num_elem){
 		move(oldpos.y,oldpos.x);
 		addch(' ');
 	}
-	for (i=0;i<num_elem;++i){
-		move(snake[i].y,snake[i].x);
-		addch('o');
+	move(snake[0].y,snake[0].x);
+	switch (snake[0].dir) {
+		case LEFT:
+			addch(step & 1 ? '>' : '='); break;
+		case RIGHT:
+			addch(step & 1 ? '<' : '='); break;
+		case UP:
+			addch(step & 1 ? 'V' : 'H'); break;
+		case DOWN:
+			addch(step & 1 ? 'A' : 'H'); break;
 	}
+	step = (step + 1) & 1;
+	for (i=1;i<num_elem;++i){
+		move(snake[i].y,snake[i].x);
+		switch (snake[i].dir) {
+			case LEFT:
+			case RIGHT:
+				addch('.'); break;
+			case UP:
+			case DOWN:
+				addch('.'); break;
+		}
+	}
+	wattrset(stdscr, 0);
 	refresh();
 }
 
@@ -87,6 +111,9 @@ static void init_game(void){
 	signal(SIGINT,finish);
 	cbreak();
 	noecho();
+	start_color();
+	init_pair(0, -1,  -1);
+	init_pair(1, COLOR_YELLOW, COLOR_YELLOW);
 	getmaxyx(stdscr, height, width);
 	srand(time(NULL) ^ getuid());
 	thesnake=malloc(len_snake*sizeof(snake_elem));
@@ -303,6 +330,7 @@ static void read_config(void){
 
 static void draw_boundary(void){
 	unsigned int i;
+	wattrset(stdscr, COLOR_PAIR(1));
 	move(0,0);
 	for (i=0;i<width;++i)
 		addch(BOUNDARY_CHAR);
@@ -315,6 +343,7 @@ static void draw_boundary(void){
 	move(height-1,0);
 	for (i=0;i<width;++i)
 		addch(BOUNDARY_CHAR);
+	wattrset(stdscr, 0);
 	refresh();
 }
 

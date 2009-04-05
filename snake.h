@@ -3,8 +3,6 @@
 
 enum direction { LEFT = 1, RIGHT, UP, DOWN };
 
-#define BOUNDARY_CHAR 'X'
-
 #define FILE_PERMS (S_IRUSR|S_IWUSR|S_IRGRP|S_IWGRP|S_IROTH|S_IWOTH) 
 
 #define TO_BE_ADDED 8
