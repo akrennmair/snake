@@ -17,9 +17,6 @@
 #ifndef SNAKE_H_INCLUDED
 #define SNAKE_H_INCLUDED
 
-#define SNAKE_VERSION "0.3"
-
-
 #define LEFT  1
 #define RIGHT 2
 #define UP    3
