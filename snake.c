@@ -103,6 +103,7 @@ void init_game(void){
   cbreak();
   noecho();
   getmaxyx(stdscr, height, width);
+  srand(time(NULL) ^ getuid());
   thesnake=malloc(len_snake*sizeof(snake_elem));
   {
     unsigned int i;
