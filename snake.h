@@ -37,14 +37,14 @@ typedef struct sn_elem {
 } snake_elem;
 
 
-typedef struct hsl{
+typedef struct hsl {
   char name[20];
-  int  pts;
+  unsigned int pts;
 } hs_list; 
 
 struct goodie_t {
   int x,y;
-  int pts;
+  unsigned int pts;
   int eaten;
 } goodie;
 

@@ -26,9 +26,9 @@
 
 snake_elem * thesnake;
 snake_elem oldpos;
-int len_snake=10;
-long points=0;
-int count=0;
+unsigned int len_snake = 10;
+unsigned long points = 0;
+unsigned int count=0;
 
 char key_up = 'i';
 char key_down = 'k';
@@ -91,7 +91,7 @@ void init_game(void){
   noecho();
   thesnake=malloc(len_snake*sizeof(snake_elem));
   {
-    int i;
+    unsigned int i;
     for (i=0;i<len_snake;++i){
       thesnake[i].x=80/2+i;
       thesnake[i].y=12;
@@ -132,7 +132,7 @@ void quit_game(void){
       strcpy(hs[8].name,"Niklaus Wirth");      /* Pascal */
       strcpy(hs[9].name,"Donald Knuth");       /* TeX, KMP search algorithm */
       {
-        register int i;
+        int i;
         for (i=9;i>=0;--i)
           hs[9-i].pts=(i+1)*20;
       }
@@ -179,7 +179,7 @@ void quit_game(void){
 /* procedure to handle the snake's moves */
 int make_a_move(void){
   char ch;
-  int i;
+  unsigned int i;
   if (goodie.eaten) {
     if (--count > 0)
       thesnake=(snake_elem *)realloc(thesnake,++len_snake*sizeof(snake_elem)); 
@@ -275,7 +275,7 @@ int kbhit(void){
 /* procedure to set a new goodie */
 void set_new_goodie(void){
   int isonthesnake;
-  register int i;
+  unsigned int i;
   do {
     isonthesnake=1;  
     goodie.x=(int)1.0+(78.0*rand()/(RAND_MAX+1.0));
@@ -318,7 +318,7 @@ void read_config(void){
 }
 
 void draw_boundary(void){
-  register int i;
+  unsigned int i;
   move(0,0);
   for (i=0;i<80;++i)
     addch(BOUNDARY_CHAR);
@@ -336,9 +336,9 @@ void draw_boundary(void){
 
 void draw_score(void){
   char pointstr[20];
-  register int i;
+  unsigned int i;
   move(0,3);
-  sprintf(pointstr,"%d",(int)points);
+  snprintf(pointstr, sizeof(pointstr), "%lu", points);
   addch(' ');
   for (i=0;i<strlen(pointstr);++i)
     addch(pointstr[i]);
