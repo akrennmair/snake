@@ -32,7 +32,7 @@
 #define TO_BE_ADDED 8
 
 typedef struct sn_elem {
-  int x, y;
+  unsigned int x, y;
   int dir;
 } snake_elem;
 
@@ -43,7 +43,7 @@ typedef struct hsl {
 } hs_list; 
 
 struct goodie_t {
-  int x,y;
+  unsigned int x, y;
   unsigned int pts;
   int eaten;
 } goodie;

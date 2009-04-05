@@ -30,6 +30,8 @@ unsigned int len_snake = 10;
 unsigned long points = 0;
 unsigned int count=0;
 
+unsigned int height = 25, width = 80;
+
 char key_up = 'i';
 char key_down = 'k';
 char key_left = 'j';
@@ -61,13 +63,15 @@ void finish(int sig){
 /* redraws the snake */
 void draw_snake(snake_elem * snake,int num_elem){
   int i;
-  int x,y;
-  if (count<1)
-    for (x=oldpos.x-1;x<=oldpos.x+1;++x)
+  unsigned int x, y;
+  if (count<1) {
+    for (x=oldpos.x-1;x<=oldpos.x+1;++x) {
       for (y=oldpos.y-1;y<=oldpos.y+1;++y){
         move(y,x);
         addch(' ');
       }
+    }
+  }
   refresh();
   if (!goodie.eaten) {
     move(goodie.y,goodie.x);
@@ -89,18 +93,19 @@ void init_game(void){
   signal(SIGINT,finish);
   cbreak();
   noecho();
+  getmaxyx(stdscr, height, width);
   thesnake=malloc(len_snake*sizeof(snake_elem));
   {
     unsigned int i;
     for (i=0;i<len_snake;++i){
-      thesnake[i].x=80/2+i;
-      thesnake[i].y=12;
+      thesnake[i].x=width/2+i;
+      thesnake[i].y=height/2;
       thesnake[i].dir=LEFT;
     }
   }
   set_new_goodie();
-  oldpos.x=80/2+len_snake;
-  oldpos.y=12;
+  oldpos.x=width/2+len_snake;
+  oldpos.y=height;
   oldpos.dir=LEFT;
   draw_snake(thesnake,len_snake);
 }
@@ -241,8 +246,8 @@ int make_a_move(void){
     thesnake[0].x++;
     break;
   } /* switch */
-  if (thesnake[0].x==0 || thesnake[0].x==79 || 
-      thesnake[0].y==0 || thesnake[0].y==24)
+  if (thesnake[0].x==0 || thesnake[0].x==width-1 || 
+      thesnake[0].y==0 || thesnake[0].y==height-1)
   {
     return 0;
   } /* if */
@@ -278,8 +283,8 @@ void set_new_goodie(void){
   unsigned int i;
   do {
     isonthesnake=1;  
-    goodie.x=(int)1.0+(78.0*rand()/(RAND_MAX+1.0));
-    goodie.y=(int)1.0+(23.0*rand()/(RAND_MAX+1.0));
+    goodie.x=(int)1.0+(((float)(width-2))*rand()/(RAND_MAX+1.0));
+    goodie.y=(int)1.0+(((float)(height-2))*rand()/(RAND_MAX+1.0));
     for (i=0;i<len_snake;++i){
       if (thesnake[i].x==goodie.x && thesnake[i].y==goodie.y){
         isonthesnake=0;
@@ -320,16 +325,16 @@ void read_config(void){
 void draw_boundary(void){
   unsigned int i;
   move(0,0);
-  for (i=0;i<80;++i)
+  for (i=0;i<width;++i)
     addch(BOUNDARY_CHAR);
-  for (i=1;i<24;++i){
+  for (i=1;i<height-1;++i){
     move(i,0);
     addch(BOUNDARY_CHAR);
-    move(i,79);
+    move(i,width-1);
     addch(BOUNDARY_CHAR);
   }
-  move(24,0);
-  for (i=0;i<80;++i)
+  move(height-1,0);
+  for (i=0;i<width;++i)
     addch(BOUNDARY_CHAR);
   refresh();
 } 
