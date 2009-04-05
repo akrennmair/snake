@@ -37,12 +37,20 @@ char key_down = 'k';
 char key_left = 'j';
 char key_right = 'l';
 
-
+void usage(const char * argv0) {
+  fprintf(stderr, "%s: usage: %s\n", argv0, argv0);
+  fprintf(stderr, "Available keys:\n");
+  fprintf(stderr, "\tUp:\t%c\n\tDown:\t%c\n\tLeft:\t%c\n\tRight:\t%c\n", key_up, key_down, key_left, key_right);
+  exit(1);
+}
 
 /* the main program */
-int main(void){
+int main(int argc, char * argv[]){
   int status;
   read_config();
+  if (argc > 1) {
+    usage(argv[0]);
+  }
   init_game();
   do {
     status=make_a_move();
