@@ -34,7 +34,7 @@ static void usage(const char * argv0) {
 }
 
 /* the main program */
-int main(int argc, char * argv[]){
+int main(int argc, char * argv[]) {
 	int status;
 	read_config();
 	if (argc > 1) {
@@ -50,14 +50,14 @@ int main(int argc, char * argv[]){
 }
 
 /* procedure for handling signals and stuff */
-static void finish(int sig){
+static void finish(int sig) {
 	endwin();
 	fprintf(stderr,"Caught signal %d, exiting...\n",sig);
 	exit(1);
 }
 
 /* redraws the snake */
-static void draw_snake(snake_elem * snake,int num_elem){
+static void draw_snake(snake_elem * snake,int num_elem) {
 	int i;
 	unsigned int x, y;
 	wattrset(stdscr, A_BOLD);
@@ -104,7 +104,7 @@ static void draw_snake(snake_elem * snake,int num_elem){
 }
 
 /* initializes the terminal and prepares the snake */
-static void init_game(void){
+static void init_game(void) {
 	unsigned int i;
 	initscr();
 	signal(SIGTERM,finish);
@@ -130,7 +130,7 @@ static void init_game(void){
 }
 
 /* procedure to quit the game (restoring terminal, freeing up memory) */
-static void quit_game(void){
+static void quit_game(void) {
 	FILE * f;
 	hs_list hs[10], entry;
 	erase();
@@ -175,8 +175,7 @@ try_again:
 		}
 		if ((f=fopen("/var/lib/games/snake.score","wb"))==NULL){
 			fprintf(stderr, "Error: couldn't create /var/lib/games/snake.score!\n");
-		} 
-		else {
+		} else {
 			fwrite(hs, sizeof(hs_list), 10, f);
 			fclose(f);
 			chmod("/var/lib/games/snake.score",FILE_PERMS);
@@ -185,7 +184,7 @@ try_again:
 }
 
 /* procedure to handle the snake's moves */
-static int make_a_move(void){
+static int make_a_move(void) {
 	char ch;
 	unsigned int i;
 	if (goodie.eaten) {
@@ -208,13 +207,11 @@ static int make_a_move(void){
 		ch=getch();
 		if (ch=='q') {
 			return 0;
-		}
-		else {
+		} else {
 			if (ch==key_up) {
 				if (thesnake[1].dir!=DOWN)
 					thesnake[0].dir=UP;
-			}
-			else {
+			} else {
 				if (ch==key_down) {
 					if (thesnake[1].dir!=UP)
 						thesnake[0].dir=DOWN;
@@ -232,7 +229,7 @@ static int make_a_move(void){
 			}
 		}
 	}
-	switch (thesnake[0].dir){
+	switch (thesnake[0].dir) {
 		case UP:
 			thesnake[0].y--;
 			break;
@@ -276,7 +273,7 @@ static int kbhit(void) {
 
 
 /* procedure to set a new goodie */
-static void set_new_goodie(void){
+static void set_new_goodie(void) {
 	int isonthesnake;
 	unsigned int i;
 	do {
@@ -296,7 +293,7 @@ static void set_new_goodie(void){
 
 
 /* read the configuration file at startup */
-static void read_config(void){
+static void read_config(void) {
 	FILE * configfile;
 	char line[10];
 	char userpath[255];
@@ -313,10 +310,9 @@ static void read_config(void){
 	if ((configfile=fopen(userpath,"rt"))==NULL){
 		if ((configfile=fopen(userpath,"wt"))!=NULL){
 			fprintf(configfile,"%c # up\n%c # down\n%c # left\n%c # right\n",
-													key_up,	key_down,	key_left,	key_right);
+					key_up, key_down, key_left, key_right);
 		}
-	}
-	else {
+	} else {
 		fgets(line,100,configfile);
 		key_up=*line;
 		fgets(line,100,configfile);
@@ -328,7 +324,7 @@ static void read_config(void){
 	}
 }
 
-static void draw_boundary(void){
+static void draw_boundary(void) {
 	unsigned int i;
 	wattrset(stdscr, COLOR_PAIR(1));
 	move(0,0);
@@ -347,7 +343,7 @@ static void draw_boundary(void){
 	refresh();
 }
 
-static void draw_score(void){
+static void draw_score(void) {
 	char pointstr[20];
 	unsigned int i;
 	move(0,3);
@@ -359,7 +355,7 @@ static void draw_score(void){
 	refresh();
 }
 
-static int cmp_hs(const void * elem1, const void * elem2){
+static int cmp_hs(const void * elem1, const void * elem2) {
 	return ((hs_list *)elem2)->pts - ((hs_list *)elem1)->pts;
 }
 
