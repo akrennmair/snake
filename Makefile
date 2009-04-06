@@ -41,4 +41,4 @@ install:
 
 # dependencies:
 
-snake.c: snake.h
+snake.o: snake.c snake.h
