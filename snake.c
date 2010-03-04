@@ -7,6 +7,7 @@
 #include <sys/stat.h>
 #include <unistd.h>
 #include <pwd.h>
+#include <time.h>
 #include "snake.h"
 
 #define BOUNDARY_CHAR ' '

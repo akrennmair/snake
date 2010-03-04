@@ -1,3 +1,7 @@
+Mar 04 2010:
+ * Minor cleanups in source code.
+     -- Andreas Krennmair
+
 Apr 06 2009:
  * Implemented color support
  * Improved snake rendering

@@ -1,5 +1,5 @@
 CC=cc
-CFLAGS=-O2 -Wall -Wextra
+CFLAGS=-O2 -Wall -Wextra -std=c99 -D_XOPEN_SOURCE=500
 LDFLAGS=-lncurses
 OUTPUT=snake
 
