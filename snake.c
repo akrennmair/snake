@@ -296,7 +296,7 @@ static void set_new_goodie(void) {
 /* read the configuration file at startup */
 static void read_config(void) {
 	FILE * configfile;
-	char line[10];
+	char line[100];
 	char userpath[255];
 	const char * homedir = getenv("HOME");
 	if (!homedir) {
@@ -314,14 +314,15 @@ static void read_config(void) {
 					key_up, key_down, key_left, key_right);
 		}
 	} else {
-		fgets(line,100,configfile);
+		fgets(line,sizeof(line),configfile);
 		key_up=*line;
-		fgets(line,100,configfile);
+		fgets(line,sizeof(line),configfile);
 		key_down=*line;
-		fgets(line,100,configfile);
+		fgets(line,sizeof(line),configfile);
 		key_left=*line;
-		fgets(line,100,configfile);
+		fgets(line,sizeof(line),configfile);
 		key_right=*line;
+		fclose(configfile);
 	}
 }
 
